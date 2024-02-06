@@ -5,6 +5,7 @@ Python utility to obfuscates sensitive customer information in a PostgreSQL data
 ## Requirements
 
 - Python 3
+- Pip
 - PostgreSQL
 
 ## Running the Utility
