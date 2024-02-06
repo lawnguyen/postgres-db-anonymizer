@@ -23,7 +23,7 @@ masks: # Supported values for mode key: email | first-name | full-name | phone-n
       - name: password
         mode_key: phone-number
 database_subset:
-  sample_percentage: 10
+  percentage: 10
   subset_tables: # Supported values: comments | in_pincode | order_log | product_log | uk_pincode
     - comments
     - in_pincode

@@ -1,5 +1,4 @@
 import random
-import string
 
 
 def mask_data(key, value):
