@@ -4,7 +4,7 @@ database_connection:
   host: localhost
   port: 5432
   database_name: test_database
-transformations: # Supported values for transformer: first-name | full-name | email | random | phone-number | credit-card
+transformations: # Supported values for transformer: first-name | full-name | email | random | phone-number | number
   - table: adminuser
     columns:
       - name: first_name
