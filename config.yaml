@@ -1,4 +1,4 @@
-database_connection:
+database_connection: # WARNING: DO NOT USE YOUR LIVE PRODUCTION DATABASE
   user: postgres
   password: postgres
   host: localhost
