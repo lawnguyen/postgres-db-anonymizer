@@ -28,6 +28,7 @@ def main():
                         )
                     for mask in config["masks"]:
                         update_table(conn, cur, mask["table"], mask["columns"], "mask")
+                    cur.close()
                 conn.close()
         except yaml.YAMLError as exc:
             print(exc)
