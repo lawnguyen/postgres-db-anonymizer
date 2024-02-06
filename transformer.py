@@ -1,4 +1,3 @@
-import re
 import random
 import string
 
@@ -11,6 +10,7 @@ def transform_data(key):
         "phone-number": generate_phone_number,
         "random": randomize_value,
         "number": generate_random_number,
+        "address": generate_random_address,
     }
 
     if key in transformations:
@@ -258,3 +258,25 @@ def generate_phone_number():
 def generate_random_number():
     # Generate a random integer between 1 and 1000 (inclusive).
     return random.randint(1, 1000)
+
+
+def generate_random_address():
+    states = [
+        "Andhra Pradesh",
+        "Telangana",
+        "Maharashtra",
+        "Tamil Nadu",
+        "Uttar Pradesh",
+    ]
+    cities = ["Hyderabad", "Mumbai", "Chennai", "Delhi", "Bangalore"]
+    zip_code = str(random.randint(100000, 999999))
+
+    state = random.choice(states)
+    city = random.choice(cities)
+    street_address = (
+        f"{random.randint(1, 999)} {random.choice(['Main', 'Cross', 'Market'])} Street"
+    )
+
+    random_address = f"{street_address}, {city}, {state} - {zip_code}, India"
+
+    return random_address
