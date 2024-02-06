@@ -1,6 +1,6 @@
-# PostgreSQL Database Transformer
+# PostgreSQL Database Anonymizer
 
-Python utility to transforms sensitive customer information in a PostgreSQL database
+Python utility to transform or mask sensitive customer information in a PostgreSQL database
 
 ## Requirements
 
@@ -12,7 +12,7 @@ Python utility to transforms sensitive customer information in a PostgreSQL data
 
 Navigate to this directory.
 
-Fill out the config.yaml file with connection information and desired transformations.
+Fill out the config.yaml file with connection information and desired transformations/masks.
 
 Install dependencies with
 
