@@ -10,7 +10,7 @@ def transform_data(key):
         "full-name": generate_full_name,
         "phone-number": generate_phone_number,
         "random": randomize_value,
-        "credit-card": generate_credit_card,
+        "number": generate_random_number,
     }
 
     if key in transformations:
@@ -255,6 +255,6 @@ def generate_phone_number():
     return phone_number
 
 
-def generate_credit_card():
-    # Replace credit card logic with your own logic
-    return "424****************"
+def generate_random_number():
+    # Generate a random integer between 1 and 1000 (inclusive).
+    return random.randint(1, 1000)
