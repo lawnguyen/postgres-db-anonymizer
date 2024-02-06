@@ -1,6 +1,6 @@
-# PostgreSQL Database Obfuscator
+# PostgreSQL Database Transformer
 
-Python utility to obfuscates sensitive customer information in a PostgreSQL database
+Python utility to transforms sensitive customer information in a PostgreSQL database
 
 ## Requirements
 
@@ -12,10 +12,12 @@ Python utility to obfuscates sensitive customer information in a PostgreSQL data
 
 Navigate to this directory.
 
+Fill out the config.yaml file with connection information and desired transformations.
+
 Install dependencies with
 
 ### `pip install -r requirements.txt`
 
 Run the utility with
 
-### `python3 obfuscator.py`
+### `python3 main.py`
