@@ -4,24 +4,24 @@ database_connection:
   host: localhost
   port: 5432
   database_name: test_database
-transformations: # Supported values for transformer: first-name | full-name | email | random | phone-number | number | address
+transformations: # Supported values for mode key: first-name | full-name | email | random | phone-number | number | address
   - table: adminuser
     columns:
       - name: first_name
-        transform_key: full-name
+        mode_key: full-name
       - name: email
-        transform_key: email
+        mode_key: email
       - name: password
-        transform_key: phone-number
-masks: # Supported values for mask key: email | first-name | full-name | phone-number
+        mode_key: phone-number
+masks: # Supported values for mode key: email | first-name | full-name | phone-number
   - table: adminuser
     columns:
       - name: first_name
-        transform_key: full-name
+        mode_key: full-name
       - name: email
-        transform_key: email
+        mode_key: email
       - name: password
-        transform_key: phone-number
+        mode_key: phone-number
 database_subset:
   sample_percentage: 10
   subset_tables: # Supported values: comments | in_pincode | order_log | product_log | uk_pincode
