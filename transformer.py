@@ -242,9 +242,17 @@ def randomize_value():
 
 
 def generate_phone_number():
-    # Replace phone number logic with your own logic
-    # This is just a placeholder
-    return "123-456-7890"
+    # Country code (you can customize this based on your needs)
+    country_code = "+91"  # Example: India
+
+    # Generate a random local area code and phone number
+    area_code = str(random.randint(100, 999))
+    local_number = "".join(str(random.randint(0, 9)) for _ in range(7))
+
+    # Format the phone number
+    phone_number = f"{country_code} ({area_code}) {local_number[:3]}-{local_number[3:]}"
+
+    return phone_number
 
 
 def generate_credit_card():
