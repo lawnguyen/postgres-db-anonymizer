@@ -12,7 +12,7 @@ transformations: # Supported values for mode key: first-name | full-name | email
       - name: email
         mode_key: email
       - name: password
-        mode_key: phone-number
+        mode_key: random
 masks: # Supported values for mode key: email | first-name | full-name | phone-number
   - table: adminuser
     columns:
