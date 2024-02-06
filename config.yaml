@@ -12,7 +12,16 @@ transformations: # Supported values for transformer: first-name | full-name | em
       - name: email
         transform_key: email
       - name: password
-        transform_key: random
+        transform_key: phone-number
+masks: # Supported values for mask key: email | first-name | full-name | phone-number
+  - table: adminuser
+    columns:
+      - name: first_name
+        transform_key: full-name
+      - name: email
+        transform_key: email
+      - name: password
+        transform_key: phone-number
 database_subset:
   sample_percentage: 10
   subset_tables: # Supported values: comments | in_pincode | order_log | product_log | uk_pincode
