@@ -41,7 +41,7 @@
 - product_log (8889504 rows)
 - uk_pincode (1755571 rows)
 
-## Tables that need obfusction
+## Tables that may contain sensitve data
 
 - adminuser (not customer-related)
   - first_name
