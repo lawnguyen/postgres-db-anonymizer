@@ -1,5 +1,6 @@
 import psycopg
 from psycopg import sql
+from masker import mask_data
 from transformer import transform_data
 
 
@@ -8,10 +9,32 @@ def fetch_all_records_id(cur, table):
     return cur.execute(f"SELECT id FROM {table}")
 
 
-# Update all columns in a table with obfuscated/masked values
-def update_table(conn, cur, table, columns):
+def fetch_current_value(conn, table, recordId, columnName):
+    select_column_query = sql.SQL("SELECT {} FROM {} WHERE id = %s").format(
+        sql.Identifier(columnName),
+        sql.Identifier(table),
+    )
+    with conn.cursor() as cur:
+        cur.execute(select_column_query, (recordId,))
+        current_value = cur.fetchone()[0]
+        cur.close()
+        return current_value
+
+
+"""
+Update all columns in a table with transformed/masked values
+
+@param conn - psycopg connection
+@param cur = psycopg cursor
+@param table = name of table to update
+@param columns - list of columns to update and the mode key
+@param mode ["transform" | "mask"] - mode of operation to apply to record
+"""
+
+
+def update_table(conn, cur, table, columns, mode):
     print(
-        f"Transforming and updating the following columns in all records of table {table}: {', '.join(column['name'] for column in columns)}"
+        f"Transforming/masking and updating the following columns in all records of table {table}: {', '.join(column['name'] for column in columns)}"
     )
 
     updated_values = []
@@ -21,8 +44,13 @@ def update_table(conn, cur, table, columns):
     for record in records:
         set_values = {}
         for column in columns:
-            # Assign transformed data value
-            set_values[column["name"]] = transform_data(column["transform_key"])
+            current_value = fetch_current_value(conn, table, record[0], column["name"])
+            # Assign transformed or masked data value
+            set_values[column["name"]] = (
+                transform_data(column["mode_key"])
+                if mode == "transform"
+                else mask_data(column["mode_key"], current_value)
+            )
 
         updated_values.append((record[0], set_values))
 
