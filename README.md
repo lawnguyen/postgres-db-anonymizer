@@ -8,6 +8,20 @@ Python utility to transform or mask sensitive customer information in a PostgreS
 - Pip
 - PostgreSQL
 
+## Running the Utility
+
+Navigate to this directory.
+
+Fill out the config.yaml file with connection information and desired transformations/masks.
+
+Install dependencies with
+
+### `pip install -r requirements.txt`
+
+Run the utility with
+
+### `python3 main.py`
+
 ## Config Sections
 
 All configuration lives in the [./config.yaml](./config.yaml) file. Please be mindful of indentation, as yaml is sensitive to whitespace.
@@ -72,17 +86,3 @@ Example:
 ### `database_subset`
 
 TODO
-
-## Running the Utility
-
-Navigate to this directory.
-
-Fill out the config.yaml file with connection information and desired transformations/masks.
-
-Install dependencies with
-
-### `pip install -r requirements.txt`
-
-Run the utility with
-
-### `python3 main.py`
