@@ -1,6 +1,8 @@
 import random
 import re
 
+from transformer import generate_email, generate_random_token, randomize_value
+
 
 def mask_data(key, value):
     masks = {
@@ -9,15 +11,19 @@ def mask_data(key, value):
         "full-name": mask_full_name,
         "phone-number": mask_phone_number,
         "token": mask_token,
+        "random": mask_random,
     }
 
     if key in masks:
         return masks[key](value)
     else:
-        return f"Unsupported mask key: {key}"
+        return f"Error: Unsupported mask key: {key}"
 
 
 def mask_email(email):
+    if not email:
+        return None
+
     # Mask email address by replacing a random number of characters in both the local and domain parts with asterisks.
     if "@" in email:
         local_part, domain = email.split("@")
@@ -38,19 +44,25 @@ def mask_email(email):
         masked_email = f"{masked_local_part}@{masked_domain}"
         return masked_email
     else:
-        return f"Invalid email address: {email}"
+        return mask_email(generate_email())
 
 
 def mask_first_name(first_name):
+    if not first_name:
+        return None
+
     # Mask a first name by replacing all characters except the first one with asterisks.
     if len(first_name) >= 1:
         masked_first_name = vars[0] + "*" * (len(first_name) - 1)
         return masked_first_name
     else:
-        return f"Invalid first name: {first_name}"
+        return "J****"
 
 
 def mask_full_name(full_name):
+    if not full_name:
+        return None
+
     # Mask all characters in both the first and last name except for the first character.
     names = full_name.split()
 
@@ -60,32 +72,35 @@ def mask_full_name(full_name):
         masked_full_name = f"{masked_first_name} {masked_last_name}"
         return masked_full_name
     else:
-        return f"Invalid full name: {full_name}"
+        return "J*** D**"
 
 
 def mask_phone_number(phone_number):
+    if not phone_number:
+        return None
+
     # Mask all but the last four digits in a phone number
     digits = "".join(char for char in phone_number if char.isdigit())
 
     if len(digits) >= 4:
         return "******" + digits[-4:]
     else:
-        return f"Invalid phone number: {phone_number}"
+        return "******5555"
 
 
 def mask_token(token):
     # Mask a token by replacing a random subset of characters in each segment with asterisks.
+    if not token:
+        return None
     if not is_valid_token(token):
-        return f"Invalid token format: {token}"
+        token = generate_random_token()
 
     segments = token.split("-")
     masked_segments = []
 
     for segment in segments:
-        num_asterisks = random.randint(
-            1, min(len(segment), 5)
-        )  # You can adjust the range as needed
-        indices_to_mask = random.sample(range(len(segment)), num_asterisks)
+        num_asterisks = random.randint(1, min(len(segment), 10))
+        indices_to_mask = sorted(random.sample(range(len(segment)), num_asterisks))
 
         masked_characters = [
             char if i not in indices_to_mask else "*" for i, char in enumerate(segment)
@@ -102,3 +117,21 @@ def is_valid_token(token):
         r"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
     )
     return bool(pattern.match(token))
+
+
+def mask_random(original_string):
+    # Mask 50% of the characters in a string with asterisks.
+    if not original_string:
+        return None
+
+    num_asterisks = len(original_string) // 2
+
+    masked_indices = random.sample(
+        range(len(original_string)), min(len(original_string), num_asterisks)
+    )
+
+    masked_string = "".join(
+        char if i not in masked_indices else "*"
+        for i, char in enumerate(original_string)
+    )
+    return masked_string
