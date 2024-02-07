@@ -237,7 +237,7 @@ def generate_full_name(value):
         "Mthembu",
         "Mokwena",
     ]
-    return f"{generate_first_name('foo')} {random.choice(last_names)}"
+    return f"{generate_first_name('foobar')} {random.choice(last_names)}"
 
 
 def randomize_value(value):

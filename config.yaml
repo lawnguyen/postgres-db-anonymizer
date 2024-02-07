@@ -5,17 +5,11 @@ database_connection: # WARNING: DO NOT USE YOUR LIVE PRODUCTION DATABASE
   port: 5432
   database_name: test_database
 transformations:
-  # Supported values for transform mode keys: first-name | full-name | email | random | phone-number | number | address | address2
+  # Supported values for transform mode keys: first-name | full-name | email | random | phone-number | number | address | address2 | token
   # Supported values for mask mode keys: email | first-name | full-name | phone-number | token | random
-  - table: adminuser
+  - table: comments
     columns:
-      - name: first_name
-        mode: transform
-        mode_key: full-name
-      - name: email
-        mode: transform
-        mode_key: email
-      - name: password
+      - name: comment_text
         mode: transform
         mode_key: random
   - table: customer_log
@@ -62,6 +56,42 @@ transformations:
       - name: bank_ref
         mode: mask
         mode_key: random
+  - table: paymentmethods
+    columns:
+      - name: payment_id
+        mode: mask
+        mode_key: random
+      - name: payment_gateway_cust_id
+        mode: mask
+        mode_key: random
+  - table: seller
+    columns:
+      - name: address1
+        mode: mask
+        mode_key: random
+      - name: address2
+        mode: mask
+        mode_key: random
+      - name: tax_id_number
+        mode: mask
+        mode_key: random
+      - name: email
+        mode: mask
+        mode_key: email
+  - table: supplier
+    columns:
+      - name: address1
+        mode: mask
+        mode_key: random
+      - name: address2
+        mode: mask
+        mode_key: random
+      - name: phone
+        mode: mask
+        mode_key: random
+      - name: email
+        mode: mask
+        mode_key: email
 database_subset:
   percentage: 10
   subset_tables: # Supported values: comments | in_pincode | order_log | product_log | uk_pincode
