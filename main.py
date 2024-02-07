@@ -24,10 +24,7 @@ def main():
                             cur,
                             transformation["table"],
                             transformation["columns"],
-                            "transform",
                         )
-                    for mask in config["masks"]:
-                        update_table(conn, cur, mask["table"], mask["columns"], "mask")
                     cur.close()
                 conn.close()
         except yaml.YAMLError as exc:

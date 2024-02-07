@@ -32,7 +32,7 @@ Update all columns in a table with transformed/masked values
 """
 
 
-def update_table(conn, cur, table, columns, mode):
+def update_table(conn, cur, table, columns):
     print(
         f"Transforming/masking and updating the following columns in all records of table {table}: {', '.join(column['name'] for column in columns)}"
     )
@@ -44,13 +44,21 @@ def update_table(conn, cur, table, columns, mode):
     for record in records:
         set_values = {}
         for column in columns:
+            mode = column["mode"]
             current_value = fetch_current_value(conn, table, record[0], column["name"])
             # Assign transformed or masked data value
-            set_values[column["name"]] = (
-                transform_data(column["mode_key"])
-                if mode == "transform"
-                else mask_data(column["mode_key"], current_value)
-            )
+            if mode == "transform":
+                set_values[column["name"]] = transform_data(
+                    column["mode_key"], current_value
+                )
+            elif mode == "mask":
+                set_values[column["name"]] = mask_data(
+                    column["mode_key"], current_value
+                )
+            else:
+                print(f"Error: Unsupported transformation mode: {mode}")
+                print("Supported modes are 'transform' | 'mode'")
+                return
 
         updated_values.append((record[0], set_values))
 
@@ -68,7 +76,7 @@ def update_table(conn, cur, table, columns, mode):
             ]
         ),
     )
-    print(f"\nQuery: {update_query.as_string(conn)}")
+    print(f"Query: {update_query.as_string(conn)}")
 
     # Prepare a list of tuples with the updated values and the id
     data = [
@@ -80,12 +88,13 @@ def update_table(conn, cur, table, columns, mode):
         for row in updated_values
     ]
 
-    print(f"\nFormat data: {data}")
+    # print(f"\nFormat data: {data}")
 
     # Execute the UPDATE query for each row
     try:
         cur.executemany(update_query, data)
         conn.commit()
+        print("Success\n")
     except psycopg.Error as err:
         print("An error has occured:")
         print(err)

@@ -4,24 +4,64 @@ database_connection: # WARNING: DO NOT USE YOUR LIVE PRODUCTION DATABASE
   host: localhost
   port: 5432
   database_name: test_database
-transformations: # Supported values for mode key: first-name | full-name | email | random | phone-number | number | address
+transformations:
+  # Supported values for transform mode keys: first-name | full-name | email | random | phone-number | number | address | address2
+  # Supported values for mask mode keys: email | first-name | full-name | phone-number | token | random
   - table: adminuser
     columns:
       - name: first_name
+        mode: transform
         mode_key: full-name
       - name: email
+        mode: transform
         mode_key: email
       - name: password
+        mode: transform
         mode_key: random
-masks: # Supported values for mode key: email | first-name | full-name | phone-number
-  - table: adminuser
+  - table: customer_log
     columns:
-      - name: first_name
-        mode_key: full-name
+      - name: march_code
+        mode: transform
+        mode_key: random
       - name: email
+        mode: mask
         mode_key: email
-      - name: password
+      - name: token
+        mode: mask
+        mode_key: token
+  - table: customerdetails
+    columns:
+      - name: full_name
+        mode: transform
+        mode_key: full-name
+      - name: address1
+        mode: transform
+        mode_key: address
+      - name: address2
+        mode: transform
+        mode_key: address2
+      - name: phone
+        mode: transform
         mode_key: phone-number
+  - table: ncustomer
+    columns:
+      - name: email
+        mode: transform
+        mode_key: email
+      - name: token
+        mode: mask
+        mode_key: token
+      - name: march_code
+        mode: transform
+        mode_key: random
+  - table: paymentdetails
+    columns:
+      - name: billing_ref
+        mode: mask
+        mode_key: random
+      - name: bank_ref
+        mode: mask
+        mode_key: random
 database_subset:
   percentage: 10
   subset_tables: # Supported values: comments | in_pincode | order_log | product_log | uk_pincode
