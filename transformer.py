@@ -1,8 +1,9 @@
 import random
 import string
+import uuid
 
 
-def transform_data(key):
+def transform_data(key, value):
     transformations = {
         "email": generate_email,
         "first-name": generate_first_name,
@@ -11,15 +12,17 @@ def transform_data(key):
         "random": randomize_value,
         "number": generate_random_number,
         "address": generate_random_address,
+        "address2": generate_random_address2,
+        "token": generate_random_token,
     }
 
     if key in transformations:
-        return transformations[key]()
+        return transformations[key](value)
     else:
-        return f"Unsupported transformation key: {key}"
+        return f"Error: Unsupported transformation key: {key}"
 
 
-def generate_email():
+def generate_email(value=None):
     # List of common email domains
     email_domains = [
         "gmail.com",
@@ -41,7 +44,7 @@ def generate_email():
     return email_address
 
 
-def generate_first_name():
+def generate_first_name(value=None):
     first_names = [
         "Alice",
         "Bob",
@@ -112,7 +115,7 @@ def generate_first_name():
     return random.choice(first_names)
 
 
-def generate_full_name():
+def generate_full_name(value=None):
     last_names = [
         # English
         "Smith",
@@ -229,19 +232,18 @@ def generate_full_name():
     return f"{generate_first_name()} {random.choice(last_names)}"
 
 
-def randomize_value():
-    # Generate a random length between 5 and 20
-    length = random.randint(10, 20)
+def randomize_value(value=None):
+    if not value:
+        return None
 
-    # Generate the random alphanumeric string
-    alphanumeric_string = "".join(
-        random.choices(string.ascii_letters + string.digits, k=length)
+    # Randomize a string with alphanumeric values while maintaining the same length.
+    randomized_string = "".join(
+        random.choice(string.ascii_letters + string.digits) for _ in range(len(value))
     )
+    return randomized_string
 
-    return alphanumeric_string
 
-
-def generate_phone_number():
+def generate_phone_number(value=None):
     # Country code (you can customize this based on your needs)
     country_code = "+91"  # Example: India
 
@@ -255,12 +257,12 @@ def generate_phone_number():
     return phone_number
 
 
-def generate_random_number():
+def generate_random_number(value=None):
     # Generate a random integer between 1 and 1000 (inclusive).
     return random.randint(1, 1000)
 
 
-def generate_random_address():
+def generate_random_address(value=None):
     states = [
         "Andhra Pradesh",
         "Telangana",
@@ -280,3 +282,18 @@ def generate_random_address():
     random_address = f"{street_address}, {city}, {state} - {zip_code}, India"
 
     return random_address
+
+
+def generate_random_address2(value=None):
+    # Generate a random address2 part.
+    address2_length = random.randint(5, 20)  # You can adjust the length range as needed
+    address2 = "".join(
+        random.choice(string.ascii_letters + string.digits + " ,.-")
+        for _ in range(address2_length)
+    )
+    return address2
+
+
+def generate_random_token(value=None):
+    token = str(uuid.uuid4())
+    return token
