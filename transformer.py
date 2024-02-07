@@ -19,10 +19,12 @@ def transform_data(key, value):
     if key in transformations:
         return transformations[key](value)
     else:
-        return f"Error: Unsupported transformation key: {key}"
+        raise Exception(f"Error: Unsupported transformation key: {key}")
 
 
-def generate_email(value=None):
+def generate_email(value):
+    if not value:
+        return None
     # List of common email domains
     email_domains = [
         "gmail.com",
@@ -44,7 +46,10 @@ def generate_email(value=None):
     return email_address
 
 
-def generate_first_name(value=None):
+def generate_first_name(value):
+    if not value:
+        return None
+
     first_names = [
         "Alice",
         "Bob",
@@ -115,7 +120,10 @@ def generate_first_name(value=None):
     return random.choice(first_names)
 
 
-def generate_full_name(value=None):
+def generate_full_name(value):
+    if not value:
+        return None
+
     last_names = [
         # English
         "Smith",
@@ -229,10 +237,10 @@ def generate_full_name(value=None):
         "Mthembu",
         "Mokwena",
     ]
-    return f"{generate_first_name()} {random.choice(last_names)}"
+    return f"{generate_first_name('foo')} {random.choice(last_names)}"
 
 
-def randomize_value(value=None):
+def randomize_value(value):
     if not value:
         return None
 
@@ -243,7 +251,10 @@ def randomize_value(value=None):
     return randomized_string
 
 
-def generate_phone_number(value=None):
+def generate_phone_number(value):
+    if not value:
+        return None
+
     # Country code (you can customize this based on your needs)
     country_code = "+91"  # Example: India
 
@@ -257,12 +268,18 @@ def generate_phone_number(value=None):
     return phone_number
 
 
-def generate_random_number(value=None):
+def generate_random_number(value):
+    if not value:
+        return None
+
     # Generate a random integer between 1 and 1000 (inclusive).
     return random.randint(1, 1000)
 
 
-def generate_random_address(value=None):
+def generate_random_address(value):
+    if not value:
+        return None
+
     states = [
         "Andhra Pradesh",
         "Telangana",
@@ -284,7 +301,10 @@ def generate_random_address(value=None):
     return random_address
 
 
-def generate_random_address2(value=None):
+def generate_random_address2(value):
+    if not value:
+        return None
+
     # Generate a random address2 part.
     address2_length = random.randint(5, 20)  # You can adjust the length range as needed
     address2 = "".join(
@@ -294,6 +314,9 @@ def generate_random_address2(value=None):
     return address2
 
 
-def generate_random_token(value=None):
+def generate_random_token(value):
+    if not value:
+        return None
+
     token = str(uuid.uuid4())
     return token

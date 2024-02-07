@@ -17,7 +17,7 @@ def mask_data(key, value):
     if key in masks:
         return masks[key](value)
     else:
-        return f"Error: Unsupported mask key: {key}"
+        raise Exception(f"Error: Unsupported mask key: {key}")
 
 
 def mask_email(email):
@@ -93,7 +93,7 @@ def mask_token(token):
     if not token:
         return None
     if not is_valid_token(token):
-        token = generate_random_token()
+        token = generate_random_token("foobar")
 
     segments = token.split("-")
     masked_segments = []
