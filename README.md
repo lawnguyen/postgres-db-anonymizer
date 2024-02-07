@@ -1,6 +1,6 @@
 # PostgreSQL Database Anonymizer
 
-Python utility to transform or mask sensitive customer information in a PostgreSQL database
+Python utility to transform or mask sensitive customer information in a PostgreSQL database for development or testing purposes
 
 ## Requirements
 
