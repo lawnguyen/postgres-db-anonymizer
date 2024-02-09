@@ -95,6 +95,11 @@ transformations:
       - name: email
         mode: mask
         mode_key: email
+  - table: order
+    columns:
+      - name: notes
+        mode: transform
+        mode_key: random
 database_subset:
   percentage: 10
   subset_tables:
