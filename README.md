@@ -118,3 +118,23 @@ database_subset:
     - { ANOTHER_LARGE_TABLE_NAME }
     - { AND_ANOTHER_LARGE_TABLE_NAME }
 ```
+
+## Troubleshooting Tips
+
+- Ensure that you have a backup of the database before you run this script
+- Ensure that the database connection information is accurate and that the user defined has appropriate permisssions to read, write, create tables, and drop tables in the database
+- Ensure that table and column names are spelled correctly in the `config.yaml`
+- Ensure that indentation and whitespace is valid in the `config.yaml`
+- If there are issues with the transformations because of unique value constraints causing collisions then it should be enough to re-run the script as transformations are generated randomly.
+
+  - (Suggested) The safest option is to re-run the script on a fresh copy instead of re-running it on the same database multiple times because this increase your chances of more collisions
+
+  Example:
+
+  ```bash
+  create database new_test_database
+  ```
+
+  ```
+  psql -U root -d new_test_database < database-copy.sql
+  ```
