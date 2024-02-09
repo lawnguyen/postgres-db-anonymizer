@@ -94,7 +94,7 @@ transformations:
         mode_key: email
 database_subset:
   percentage: 10
-  subset_tables: # Supported values: comments | in_pincode | order_log | product_log | uk_pincode
+  subset_tables:
     - comments
     - in_pincode
     - order_log

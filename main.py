@@ -28,7 +28,10 @@ def main():
                 """
             )
 
-            if user_confirmation1 == "no" or user_confirmation2 == "no":
+            if user_confirmation1 != "yes" or user_confirmation2 != "yes":
+                print(
+                    "Confirmation not received. No changes have been made. Exiting script."
+                )
                 quit()
 
             # Connect to an existing database
@@ -39,20 +42,22 @@ def main():
 
                 # Open a cursor to perform database operations
                 with conn.cursor() as cur:
-                    for subset_table in config["database_subset"]["subset_tables"]:
-                        reduce_table_size(
-                            conn,
-                            cur,
-                            subset_table,
-                            config["database_subset"]["percentage"],
-                        )
-                    for transformation in config["transformations"]:
-                        update_table(
-                            conn,
-                            cur,
-                            transformation["table"],
-                            transformation["columns"],
-                        )
+                    if config["database_subset"]["subset_tables"]:
+                        for subset_table in config["database_subset"]["subset_tables"]:
+                            reduce_table_size(
+                                conn,
+                                cur,
+                                subset_table,
+                                config["database_subset"]["percentage"],
+                            )
+                    if config["transformations"]:
+                        for transformation in config["transformations"]:
+                            update_table(
+                                conn,
+                                cur,
+                                transformation["table"],
+                                transformation["columns"],
+                            )
                     cur.close()
                 conn.close()
         except yaml.YAMLError as exc:
