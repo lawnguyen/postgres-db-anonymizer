@@ -90,6 +90,8 @@ Reduce the size of your database by taking a subset of larger tables.
 
 Configure the tables you want reduced under `subset_tables` and the `percentage` remaining.
 
+If you don't want to reduce any tables, make sure `subset_tables` is empty, i.e., `subset_tables:`.
+
 For example,
 
 ```yaml
