@@ -75,6 +75,11 @@ transformations:
       - name: email
         mode: transform
         mode_key: email
+  - table: order
+    columns:
+      - name: notes
+        mode: transform
+        mode_key: random
 database_subset:
   percentage: 10
   subset_tables: # Supported values: comments | in_pincode | order_log | product_log | uk_pincode

@@ -6,7 +6,8 @@ from transformer import transform_data
 
 def fetch_all_records_id(cur, table):
     # Query the database and obtain data as Python objects.
-    return cur.execute(f"SELECT id FROM {table}")
+    query = sql.SQL("SELECT id FROM {}").format(sql.Identifier(table))
+    return cur.execute(query)
 
 
 def fetch_current_value(conn, table, recordId, columnName):
