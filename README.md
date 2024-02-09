@@ -30,7 +30,7 @@ All configuration lives in the [./config.yaml](./config.yaml) file. Please be mi
 
 Configure the database to be transformed.
 
-> WARNING: DO NOT USE THIS ON YOUR LIVE PRODUCTION DATABASE, Make a copy of the production database first and then run this script on the copy
+> WARNING: DO NOT USE THIS ON YOUR LIVE PRODUCTION DATABASE, these changes are permanent and can't be undone. Make a copy of the production database first and then run this script on the copy.
 
 ### `transformations`
 
@@ -85,4 +85,36 @@ Example:
 
 ### `database_subset`
 
-TODO
+Reduce the size of your database by taking a subset of larger tables.
+
+Configure the tables you want reduced under `subset_tables` and the `percentage` remaining.
+
+For example,
+
+```yaml
+percentage: 10
+```
+
+and
+
+```yaml
+subset_tables:
+  - logs
+```
+
+will reduce the table named `logs` to 10% of its original size.
+
+The rows deleted are random based on `TABLESAMPLE BERNOULLI`.
+
+> WARNING: Use at your own risk, these changes involve permanently deleting data and can't be undone. Ensure that the tables configured are not referenced as foreign keys in other tables, as relationships are not supported.
+
+Format:
+
+```yaml
+database_subset:
+  percentage: { SAMPLE_PERCENTAGE }
+  subset_tables:
+    - { LARGE_TABLE_NAME }
+    - { ANOTHER_LARGE_TABLE_NAME }
+    - { AND_ANOTHER_LARGE_TABLE_NAME }
+```
