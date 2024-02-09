@@ -21,6 +21,41 @@ def fetch_current_value(conn, table, recordId, columnName):
         return current_value
 
 
+def create_random_sample_table(cur, table, percentage):
+    query = sql.SQL(
+        "CREATE TABLE {} AS SELECT * FROM {} TABLESAMPLE BERNOULLI (%s)"
+    ).format(sql.Identifier(f"temp_{table}"), sql.Identifier(table))
+    cur.execute(query, (str(percentage),))
+
+
+def delete_from_original_table(cur, table, sample_table):
+    query = sql.SQL("DELETE FROM {} WHERE id NOT IN (SELECT id FROM {})").format(
+        sql.Identifier(table), sql.Identifier(sample_table)
+    )
+    cur.execute(query)
+
+
+def drop_temporary_sample_table(cur, sample_table):
+    query = sql.SQL("DROP TABLE IF EXISTS {}").format(sql.Identifier(sample_table))
+    cur.execute(query)
+
+
+def reduce_table_size(conn, cur, table, percentage):
+    print(f"Reducing table size of {table} to {percentage}%...")
+    print(f"Creating temporary sample table of {table}...")
+    create_random_sample_table(cur, table, percentage)
+    print(f"Temporary sample table created.")
+    print(f"Deleting rows from {table} that are not in the sample table...")
+    delete_from_original_table(cur, table, f"temp_{table}")
+    print(f"{table} is reduced to {percentage}%")
+    print("Dropping temporary sample table...")
+    drop_temporary_sample_table(cur, f"temp_{table}")
+    print("Sample table dropped.")
+    print("Done.\n")
+
+    conn.commit()
+
+
 """
 Update all columns in a table with transformed/masked values
 

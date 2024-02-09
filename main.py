@@ -1,7 +1,7 @@
 import psycopg
 import yaml
 
-from repository import update_table
+from repository import reduce_table_size, update_table
 
 
 def main():
@@ -9,6 +9,27 @@ def main():
     with open("config.yaml", "r") as stream:
         try:
             config = yaml.safe_load(stream)
+
+            user_confirmation1 = input(
+                """
+                The execution of this script will alter data (as defined in the config as 'transformations') 
+                and delete data (as defined in the config as 'database_subset').
+                
+                These operations are permanent and should never be ran against a production database.
+                
+                Please confirm that the database connection set up in the config is NOT a production database (yes/no):
+                """
+            )
+
+            user_confirmation2 = input(
+                """
+                Please confirm that you have a backup of the target database, 
+                should you need to recover or restart the script (yes/no):
+                """
+            )
+
+            if user_confirmation1 == "no" or user_confirmation2 == "no":
+                quit()
 
             # Connect to an existing database
             database_connection = config["database_connection"]
@@ -18,6 +39,13 @@ def main():
 
                 # Open a cursor to perform database operations
                 with conn.cursor() as cur:
+                    for subset_table in config["database_subset"]["subset_tables"]:
+                        reduce_table_size(
+                            conn,
+                            cur,
+                            subset_table,
+                            config["database_subset"]["percentage"],
+                        )
                     for transformation in config["transformations"]:
                         update_table(
                             conn,
