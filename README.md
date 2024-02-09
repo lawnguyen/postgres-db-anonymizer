@@ -69,6 +69,7 @@ Example:
 | full-name          | Generate a full name (string only).                      | `Lucas` -> `Alice Smith`                                   |
 | phone-number       | Generate a phone number (string only).                   | `1234567890` -> `+91 (123) 456-7890`                       |
 | random             | Randomize value but keep the same length (string only).  | `AAA` -> `B7F`                                             |
+| random-free        | Generate a random value of random length (string only).  | `AAA` -> `B7F894GHF`                                       |
 | number             | Generate a random number between 1 and 1000 (inclusive). | `42` -> `777`                                              |
 | address            | Generate a random address (string only).                 | `80 Cross Street, Chennai, Andhra Pradesh - 731318, India` |
 | address2           | Generate a random address2 part (string only).           | `2orat86c7Twwp`                                            |

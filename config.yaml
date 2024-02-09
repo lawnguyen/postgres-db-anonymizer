@@ -5,7 +5,7 @@ database_connection: # WARNING: DO NOT USE YOUR LIVE PRODUCTION DATABASE
   port: 5432
   database_name: test_database
 transformations:
-  # Supported values for transform mode keys: first-name | full-name | email | random | phone-number | number | address | address2 | token
+  # Supported values for transform mode keys: first-name | full-name | email | random | random-free | phone-number | number | address | address2 | token
   # Supported values for mask mode keys: email | first-name | full-name | phone-number | token | random
   - table: comments
     columns:
@@ -48,6 +48,9 @@ transformations:
       - name: march_code
         mode: transform
         mode_key: random
+      - name: referral_code
+        mode: transform
+        mode_key: random-free
   - table: paymentdetails
     columns:
       - name: billing_ref

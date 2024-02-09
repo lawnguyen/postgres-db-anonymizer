@@ -10,6 +10,7 @@ def transform_data(key, value):
         "full-name": generate_full_name,
         "phone-number": generate_phone_number,
         "random": randomize_value,
+        "random-free": generate_random_value,
         "number": generate_random_number,
         "address": generate_random_address,
         "address2": generate_random_address2,
@@ -320,3 +321,16 @@ def generate_random_token(value):
 
     token = str(uuid.uuid4())
     return token
+
+
+def generate_random_value(value):
+    if not value:
+        return None
+
+    # Generate a random string with random length
+    random_length = random.randint(5, 20)  # You can adjust the length range as needed
+    random_value = "".join(
+        random.choice(string.ascii_letters + string.digits)
+        for _ in range(random_length)
+    )
+    return random_value
