@@ -141,3 +141,14 @@ database_subset:
   ```
   psql -U root -d new_test_database < database-copy.sql
   ```
+
+- If any of the tables are really large, you can run a one-off query like so–
+  ```
+  DELETE FROM order_log
+  WHERE id NOT IN (
+      SELECT id
+      FROM order_log
+      ORDER BY created_at DESC
+      LIMIT 10000
+  );
+  ```

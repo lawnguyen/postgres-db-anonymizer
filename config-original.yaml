@@ -7,11 +7,6 @@ database_connection: # WARNING: DO NOT USE YOUR LIVE PRODUCTION DATABASE
 transformations:
   # Supported values for transform mode keys: first-name | full-name | email | random | phone-number | number | address | address2 | token
   # Supported values for mask mode keys: email | first-name | full-name | phone-number | token | random
-  - table: order
-    columns:
-      - name: notes
-        mode: transform
-        mode_key: random
   - table: comments
     columns:
       - name: comment_text
@@ -23,8 +18,11 @@ transformations:
         mode: transform
         mode_key: random
       - name: email
-        mode: transform
+        mode: mask
         mode_key: email
+      - name: token
+        mode: mask
+        mode_key: token
   - table: customerdetails
     columns:
       - name: full_name
@@ -44,25 +42,44 @@ transformations:
       - name: email
         mode: transform
         mode_key: email
-      - name: referral_code
-        mode: transform
-        mode_key: random-free
+      - name: token
+        mode: mask
+        mode_key: token
       - name: march_code
         mode: transform
+        mode_key: random
+  - table: paymentdetails
+    columns:
+      - name: billing_ref
+        mode: mask
+        mode_key: random
+      - name: bank_ref
+        mode: mask
         mode_key: random
   - table: paymentmethods
     columns:
       - name: payment_id
         mode: mask
         mode_key: random
+      - name: payment_gateway_cust_id
+        mode: mask
+        mode_key: random
+  - table: seller
+    columns:
+      - name: address1
+        mode: mask
+        mode_key: random
+      - name: address2
+        mode: mask
+        mode_key: random
+      - name: tax_id_number
+        mode: mask
+        mode_key: random
+      - name: email
+        mode: mask
+        mode_key: email
   - table: supplier
     columns:
-      - name: name
-        mode: transform
-        mode_key: random
-      - name: short_name
-        mode: transform
-        mode_key: random
       - name: address1
         mode: mask
         mode_key: random
@@ -73,7 +90,7 @@ transformations:
         mode: mask
         mode_key: random
       - name: email
-        mode: transform
+        mode: mask
         mode_key: email
 database_subset:
   percentage: 10
